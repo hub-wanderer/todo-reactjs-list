@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Todos from "./Todos";
 
 export default function Task() {
@@ -15,9 +15,13 @@ export default function Task() {
 
     setTodo((prevTodo): any => [...prevTodo, todoValue]);
     setTodoValue("");
-
-    localStorage.setItem("todos", JSON.stringify(todoValue));
   };
+
+  function handleDelete(id: any) {
+    setTimeout(() => {
+      setTodo((prevTodo): any => prevTodo.filter((todo) => todo !== id));
+    }, 3300);
+  }
 
   const handleKeyPress = (e: any) => {
     if (e.key === "Enter") {
@@ -29,7 +33,12 @@ export default function Task() {
     <>
       <ul className="task-container">
         {todos.map((todo, index) => (
-          <Todos key={index} index={index} task_name={todo}></Todos>
+          <Todos
+            onDelete={() => handleDelete(todo)}
+            key={index}
+            index={index}
+            task_name={todo}
+          ></Todos>
         ))}
       </ul>
       <form>
